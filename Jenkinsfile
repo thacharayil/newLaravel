@@ -5,7 +5,7 @@ pipeline {
         GCP_PROJECT = 'delta-athlete-410302'
         GCP_REPOSITORY = 'prod-laravel-api-base-image'
         IMAGE_TAG = "latest" // You can customize the tag based on your needs
-        GCP_SERVICE_ACCOUNT_CREDENTIALS = '/home/thacharayila/newLaravel/secure-files/gcp-service-account-key.json'
+        GCP_SERVICE_ACCOUNT_CREDENTIALS = 'secure-files/gcp-service-account-key.json'
     }
 
     stages {
