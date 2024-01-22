@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+    
+    environment {
+        GCP_PROJECT = 'delta-athlete-410302'
+        GCP_REPOSITORY = 'prod-laravel-api-base-image'
+        IMAGE_TAG = "latest" // You can customize the tag based on your needs
+        GCP_SERVICE_ACCOUNT_CREDENTIALS = '/home/thacharayila/newLaravel/secure-files/gcp-service-account-key.json'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    // Checkout the code from GitHub
+                    checkout scm
+                }
+            }
+        }
+
+        stage('Build and Push Image') {
+            steps {
+                script {
+                    // Authenticate with GCP using the service account key
+                    withCredentials([file(credentialsId: 'gcp-service-account-key', variable: 'GCP_SERVICE_ACCOUNT_CREDENTIALS')]) {
+                        sh "gcloud auth activate-service-account --key-file=${GCP_SERVICE_ACCOUNT_CREDENTIALS}"
+                        sh 'gcloud auth configure-docker'
+                    }
+
+                    // Build Docker image
+                    sh "docker build -t gcr.io/${GCP_PROJECT}/${GCP_REPOSITORY}:${IMAGE_TAG} ."
+
+                    // Push Docker image to GCP repository
+                    sh "docker push gcr.io/${GCP_PROJECT}/${GCP_REPOSITORY}:${IMAGE_TAG}"
+                }
+            }
+        }
+    }
+}
+
