@@ -5,8 +5,8 @@ pipeline {
         GCP_PROJECT = 'jenkins-413009'
         GCP_REPOSITORY = 'prod-laravel-api-base-image'
         IMAGE_TAG = "latest"
-	GCP_SERVICE_ACCOUNT_CREDENTIALS = credentials('gcp-service-account-key')
-//        GCP_CREDS_ID = 'gcp-service-account-key'  // Define GCP_CREDS_ID
+	//GCP_SERVICE_ACCOUNT_CREDENTIALS = credentials('gcp-service-account-key')
+        GCP_CREDS_ID = 'gcp-service-account-key'  // Define GCP_CREDS_ID
     }
 
     stages {
@@ -23,8 +23,9 @@ pipeline {
                 script {
                     // Authenticate with GCP using the service account key
                     //withCredentials([googleServiceAccountCredentials(credentialsId: GCP_CREDS_ID, variable: 'GCP_SERVICE_ACCOUNT_CREDENTIALS')]) {
-                    withCredentials([file(credentialsId: 'gcp-service-account-key', variable: 'GCP_SERVICE_ACCOUNT_CREDENTIALS')]) {
-                        sh 'gcloud auth activate-service-account --key-file=${GCP_SERVICE_ACCOUNT_CREDENTIALS}'
+                    //withCredentials([file(credentialsId: 'gcp-service-account-key', variable: 'GCP_SERVICE_ACCOUNT_CREDENTIALS')]) {
+                      withCredentials([file(credentialsId: 'gcp-service-account-key', variable: 'GCP_SERVICE_ACCOUNT_CREDENTIALS')]) {
+                      sh 'gcloud auth activate-service-account --key-file=${GCP_SERVICE_ACCOUNT_CREDENTIALS}'
                         sh 'gcloud auth configure-docker'
                     }
 
