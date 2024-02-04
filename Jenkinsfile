@@ -6,7 +6,7 @@ pipeline {
         GCP_REPOSITORY = 'prod-laravel-api-base-image'
         IMAGE_TAG = "latest"
 	//GCP_SERVICE_ACCOUNT_CREDENTIALS = credentials('gcp-service-account-key')
-        GCP_CREDS_ID = 'gcp-service-account-key'  // Define GCP_CREDS_ID
+        GCP_CREDS_ID = '2515354e-4e86-47f4-b57d-d4e72bd4b844'  // Define GCP_CREDS_ID
     }
 
     stages {
